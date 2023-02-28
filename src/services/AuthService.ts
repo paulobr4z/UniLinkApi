@@ -6,7 +6,7 @@ async function login(email: String) {
 }
 
 async function generateToken(id: String) {
-  jwt.sign({id}, `${process.env.SECRET_JWT}`, { expiresIn: 86400 });  
+  return jwt.sign({id}, `${process.env.SECRET_JWT}`, { expiresIn: 86400 });  
 }
 
 export default { 

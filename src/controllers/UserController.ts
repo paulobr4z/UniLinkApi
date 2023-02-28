@@ -5,6 +5,10 @@ interface IParams {
   params: String;
 }
 
+interface ISignupError {
+  keyPattern: {[key:string]: any};
+}
+
 async function findByUsername(request:Request, response:Response) {
   const { params } = request.params as unknown as IParams;
 
@@ -26,12 +30,20 @@ async function findByUsername(request:Request, response:Response) {
   }  
 }
 
-async function create(request:Request, response:Response) {
+async function checkUsernameAlreadyExists(request:Request, response:Response) {
+  const { params } = request.params as unknown as IParams;
+
   try {
-    const userInfo = request.body;
-    await UserService.create(userInfo);
-    return response.status(201).json({
-      message: "User created successfully!"
+    const user = await UserService.findByUsername(`${params}`);
+
+    if (!user) {
+      return response.json({
+        available: true
+      })
+    }
+
+    return response.json({
+      available: false
     });
   } catch (error) {
     return response.status(500).send({
@@ -41,4 +53,39 @@ async function create(request:Request, response:Response) {
   }  
 }
 
-export default { create, findByUsername };
+async function create(request:Request, response:Response) {
+  try {
+    const userInfo = request.body;
+
+    await UserService.create(userInfo);
+
+    return response.status(201).json({
+      message: "user created successfully"
+    });
+  } catch (error) {
+    const signupError = error as ISignupError;
+
+    if (Object.keys(signupError.keyPattern).includes('username')) {
+      return response.status(409).send({
+        message: "username already exists"
+      })
+    }
+
+    if (Object.keys(signupError.keyPattern).includes('email')) {
+      return response.status(409).send({
+        message: "email already exists"
+      })
+    }
+
+    return response.status(500).send({
+      error: "Internal Server Error!",
+      message: error
+    })      
+  }  
+}
+
+export default {
+  create,
+  findByUsername,
+  checkUsernameAlreadyExists
+};
