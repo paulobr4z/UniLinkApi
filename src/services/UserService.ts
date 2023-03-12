@@ -25,7 +25,6 @@ async function addLink(user_id: string, new_link:ILinks) {
 }
 
 async function update(user_id:string, params:string, new_value: string) {
-  console.log(user_id, params, new_value)
   return await UserSchema.findByIdAndUpdate(user_id, { [params]: new_value });
 }
 
@@ -33,11 +32,42 @@ async function create(USerInfo: IUser) {
   return await UserSchema.create(USerInfo);  
 }
 
+async function updateLinkByID(linkID: string, field: string, value: string) {
+  return await UserSchema.updateOne(
+    {
+      'links': {
+        '$elemMatch': {
+          '_id': linkID,
+        }
+      }
+    },
+    {
+      $set: {
+        [`links.$.${field}`]: `${value}`
+      }
+    }
+  );
+}
+
+async function updateUsername(userID:string, username:string) {
+  return await UserSchema.findByIdAndUpdate(
+    userID, { username }
+  );
+}
+
+async function deleteLinkByID(linkID: string) {
+  return await UserSchema.updateOne(
+    { $pull: { links: { _id: linkID } } }
+  );
+}
 export default { 
   create,
   findById,
   findByUsername,
   findByEmail,
   addLink,
-  update
+  update,
+  updateLinkByID,
+  updateUsername,
+  deleteLinkByID
 };

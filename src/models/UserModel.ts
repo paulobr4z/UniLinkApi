@@ -22,7 +22,7 @@ const UserSchema = new Schema<IUser>({
     select: false
   },
   links: [{
-    is_active: {type: String},
+    is_active: {type: Boolean},
     title: {type: String},
     url: {type: String}
   }],

@@ -6,7 +6,7 @@ async function getUserByID(request: Request, response: Response) {
 
   const user = await UserService.findById(params);
 
-  response.status(200).json({user});
+  response.status(200).json(user);
 };
 
 async function addLink(request: Request, response: Response) {
@@ -24,16 +24,93 @@ async function addLink(request: Request, response: Response) {
 };
 
 async function update(request: Request, response: Response) {
-  const { new_value, user_id } = request.body;
-  const { params } = request.params;
+  const { user_id, field, value } = request.body;
 
-  await UserService.update(user_id, params, new_value);
+  const fields = ['first_name', 'last_name', 'avatar', 'username']
 
-  response.status(200).json({ message: "successfully updated" });
+  if (fields.includes(field)) {
+    await UserService.update(user_id, field, value);    
+    return response.status(200).json({ message: "successfully updated" });
+  }
+
+  return response.status(409).json({ message: 'field not found' })
 };
+
+async function updateLinkByID(request:Request, response:Response) {
+  const linksFields = ['is_active', 'title', 'url'];
+
+  try {
+    const { linkID } = request.params;
+    const { field, value } = request.body;
+
+    if (linksFields.includes(field)) {
+      await UserService.updateLinkByID(linkID, field, value);
+      
+      return response.status(200).json({
+        message: `${field} updated successfully`
+      });
+    }
+
+    return response.status(404).json({
+      message: "field not found"
+    });
+  } catch (error) {
+    return response.status(500).send({
+      error: "Internal Server Error!",
+      message: error
+    })      
+  }  
+}
+
+async function updateUsername(request:Request, response:Response) {
+  try {
+    const { user_id, value } = request.body;
+
+    console.log(user_id, value)
+
+    const user = await UserService.findByUsername(value);
+
+    if (!user) {
+      await UserService.updateUsername(user_id, value);
+
+      return response.status(200).json({
+        message: "username updated successfully"
+      });
+    }
+
+    return response.status(404).json({
+      message: "username already exists"
+    });
+  } catch (error) {
+    return response.status(500).send({
+      error: "Internal Server Error!",
+      message: error
+    })      
+  }  
+}
+
+async function deleteLink(request:Request, response:Response) {
+  try {
+    const { linkID } = request.params;
+
+    const teste = await UserService.deleteLinkByID(linkID);
+
+    console.log(teste)
+
+    return response.status(204).send();
+  } catch (error) {
+    return response.status(500).send({
+      error: "Internal Server Error!",
+      message: error
+    })      
+  }  
+}
 
 export default {
   getUserByID,
   addLink,
-  update
+  update,
+  updateLinkByID,
+  updateUsername,
+  deleteLink
 };
