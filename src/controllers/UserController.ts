@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/UserService";
+import { ICreateUser } from "../types";
 
 interface IParams {
   params: String;
@@ -55,7 +56,7 @@ async function checkUsernameAlreadyExists(request:Request, response:Response) {
 
 async function create(request:Request, response:Response) {
   try {
-    const userInfo = request.body;
+    const userInfo = request.body as ICreateUser;
 
     await UserService.create(userInfo);
 

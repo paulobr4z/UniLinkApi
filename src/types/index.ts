@@ -12,6 +12,14 @@ export interface IUser {
   created_at?: Date;
 }
 
+export interface ICreateUser {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 export interface ILinks {
   is_active: boolean;
   url: string;
