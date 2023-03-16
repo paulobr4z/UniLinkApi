@@ -95,7 +95,7 @@ async function deleteLink(request:Request, response:Response) {
 
     const teste = await UserService.deleteLinkByID(linkID);
 
-    console.log(teste)
+    console.log('linkID', linkID)
 
     return response.status(204).send();
   } catch (error) {

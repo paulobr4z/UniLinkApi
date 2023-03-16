@@ -56,10 +56,11 @@ async function updateUsername(userID:string, username:string) {
 }
 
 async function deleteLinkByID(linkID: string) {
-  return await UserSchema.updateOne(
+  return await UserSchema.updateMany(
     { $pull: { links: { _id: linkID } } }
   );
 }
+
 export default { 
   create,
   findById,
