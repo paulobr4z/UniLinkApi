@@ -66,8 +66,6 @@ async function updateUsername(request:Request, response:Response) {
   try {
     const { user_id, value } = request.body;
 
-    console.log(user_id, value)
-
     const user = await UserService.findByUsername(value);
 
     if (!user) {
@@ -93,9 +91,7 @@ async function deleteLink(request:Request, response:Response) {
   try {
     const { linkID } = request.params;
 
-    const teste = await UserService.deleteLinkByID(linkID);
-
-    console.log('linkID', linkID)
+    await UserService.deleteLinkByID(linkID);
 
     return response.status(204).send();
   } catch (error) {
