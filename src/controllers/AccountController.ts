@@ -21,10 +21,10 @@ async function addLink(request: Request, response: Response) {
 
   const created = await UserService.addLink(user_id, newLink);
 
-  const lastLink = created?.links[created!.links.length - 1]._id;
+  const lastLinkId = created?.links[created!.links.length - 1]._id;
 
   response.status(201).json({
-    linkId: lastLink,
+    linkId: lastLinkId,
     message: "successfully created"
   });
 };

@@ -14,14 +14,11 @@ async function findByEmail(email: string) {
 }
 
 async function addLink(user_id: string, new_link:ILinks) {
-  try {
-    return await UserSchema.findByIdAndUpdate(
-      { _id: user_id },
-      { $push: { links: new_link } },
-    );
-  } catch (error) {
-    console.log(error);
-  }
+  return await UserSchema.findOneAndUpdate(
+    { _id: user_id },
+    { $push: { links: new_link } },
+    { new: true }
+  );
 }
 
 async function update(user_id:string, params:string, new_value: string) {
