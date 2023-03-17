@@ -1,5 +1,3 @@
-import { Request } from "express";
-
 export interface IUser {
   _id?: string;
   avatar?: string;
@@ -8,11 +6,12 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  links?: ILinks[];
+  links: ILinks[] | [];
   created_at?: Date;
 }
 
 export interface ICreateUser {
+  _id?: string;
   first_name: string;
   last_name: string;
   username: string;
@@ -21,6 +20,7 @@ export interface ICreateUser {
 }
 
 export interface ILinks {
+  _id?: string;
   is_active: boolean;
   url: string;
   title: string;

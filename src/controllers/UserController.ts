@@ -56,7 +56,7 @@ async function checkUsernameAlreadyExists(request:Request, response:Response) {
 
 async function create(request:Request, response:Response) {
   try {
-    const userInfo = request.body as ICreateUser;
+    const userInfo = request.body;
 
     await UserService.create(userInfo);
 

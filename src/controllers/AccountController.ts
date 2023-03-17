@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/UserService";
+import { IUser } from "../types";
 
 async function getUserByID(request: Request, response: Response) {
   const { params } = request.params;
@@ -18,9 +19,14 @@ async function addLink(request: Request, response: Response) {
     url
   }
 
-  await UserService.addLink(user_id, newLink);
+  const created = await UserService.addLink(user_id, newLink);
 
-  response.status(201).json({ message: "successfully created" });
+  const lastLink = created?.links[created!.links.length - 1]._id;
+
+  response.status(201).json({
+    linkId: lastLink,
+    message: "successfully created"
+  });
 };
 
 async function update(request: Request, response: Response) {

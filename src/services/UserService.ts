@@ -28,8 +28,8 @@ async function update(user_id:string, params:string, new_value: string) {
   return await UserSchema.findByIdAndUpdate(user_id, { [params]: new_value });
 }
 
-async function create(USerInfo: IUser) {
-  return await UserSchema.create(USerInfo);  
+async function create(UserInfo: IUser) {
+  return await UserSchema.create(UserInfo);  
 }
 
 async function updateLinkByID(linkID: string, field: string, value: string) {

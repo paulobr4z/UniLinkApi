@@ -29,7 +29,7 @@ async function signup(request: Request, response: Response) {
       email,
       password,
       avatar: ""
-    })
+    } as any)
     
     return response.status(201).json({ message: 'successfully registered user' });
   } catch (error) {
