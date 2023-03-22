@@ -6,6 +6,10 @@ const UserSchema = new Schema<IUser>({
   avatar: { type: String },
   first_name: { type: String },
   last_name: { type: String },
+  bg_color: { type: String },
+  bg_color_link: { type: String },
+  text_color: { type: String },
+  border_color: { type: String },
   username: {
     type: String,
     require: true,

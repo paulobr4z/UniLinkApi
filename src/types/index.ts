@@ -3,6 +3,10 @@ export interface IUser {
   avatar?: string;
   first_name: string;
   last_name: string;
+  bg_color?: string;
+  bg_color_link?: string;
+  text_color?: string;
+  border_color?: string;
   username: string;
   email: string;
   password: string;

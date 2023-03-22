@@ -32,7 +32,16 @@ async function addLink(request: Request, response: Response) {
 async function update(request: Request, response: Response) {
   const { user_id, field, value } = request.body;
 
-  const fields = ['first_name', 'last_name', 'avatar', 'username']
+  const fields = [
+    'first_name',
+    'last_name',
+    'avatar',
+    'username',
+    'bg_color',
+    'bg_color_link',
+    'text_color',
+    'border_color'
+  ]
 
   if (fields.includes(field)) {
     await UserService.update(user_id, field, value);    
