@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface IDecoded {
-  id: string;
+  value: string;
   iat: number;
   exp: number
 }
@@ -34,9 +34,9 @@ async function authMiddleware(req:Request, res:Response, next: NextFunction) {
       if (error) {
         return res.status(401).send({ message: "Token invalid!" });
       }
-      const { id } = decoded as unknown as IDecoded;
+      const { value } = decoded as unknown as IDecoded;
 
-      const user = await UserService.findById(id);
+      const user = await UserService.findById(value);
 
       if (!user || !user.id) {
         return res.status(401).json({ message: "Invalid token!" });

@@ -3,9 +3,11 @@ import { userRouter } from './user.routes';
 import { authRouter } from './auth.routes';
 import { accountRouter } from './account.routes';
 import { signupRouter } from './signup.routes';
+import { startRouter } from './start.routes';
 
 const routes = Router();
 
+routes.use('/api/start', startRouter);
 routes.use('/api/user', userRouter);
 routes.use('/api/login', authRouter);
 routes.use('/api/signup', signupRouter);
